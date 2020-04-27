@@ -1,0 +1,27 @@
+main: com.scolastico.serverchangelog.ServerChangeLog
+name: ServerChangeLog
+version: 1.0.0
+description: Display users the server changelog.
+api-version: 1.15
+load: POSTWORLD
+author: scolastico
+website: www.scolasti.co
+prefix: ServerChangeLog
+commands:
+  changelog:
+    description: Displays the server changelog.
+permissions:
+  changelog.display:
+    description: Allows to see the changelog.
+  changelog.notify:
+    description: Get notification on update if player is online.
+  changelog.history:
+    description: Allows to see the changelog history.
+  changelog.onjoin:
+    description: Shows the changelog on join on new update.
+  changelog.admin.create:
+    description: Allows to create an update.
+  changelog.admin.delete:
+    description: Allows to delete an change.
+  changelog.admin.reload:
+    description: Allows to reload the config.
