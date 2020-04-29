@@ -5,6 +5,7 @@ import java.util.HashMap;
 public class ConfigDataStore {
 
     private int waitSecondsAfterJoin = 5;
+    private boolean onlyNotifyOnJoin = false;
 
     private HashMap<String, String> language = new HashMap<String, String>() {
         {
@@ -28,8 +29,17 @@ public class ConfigDataStore {
             put("help_create", "&f/changelog create <message> - Create an changelog entry.");
             put("help_delete", "&f/changelog delete <id> - Delete an changelog entry.");
             put("help_reload", "&f/changelog reload - Reload Config.");
+            put("notify_on_join", "&cNew Updates available! Use /changelog to see it!");
         }
     };
+
+    public boolean isOnlyNotifyOnJoin() {
+        return onlyNotifyOnJoin;
+    }
+
+    public void setOnlyNotifyOnJoin(boolean onlyNotifyOnJoin) {
+        this.onlyNotifyOnJoin = onlyNotifyOnJoin;
+    }
 
     public HashMap<String, String> getLanguage() {
         return language;

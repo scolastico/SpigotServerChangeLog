@@ -24,15 +24,20 @@ public class OnJoin implements Listener {
                 @Override
                 public void run() {
                     if (event.getPlayer().isOnline()) {
-                        Map<Long, String> changes = api.getChangesFromPlayer(event.getPlayer());
+                        Map<Long, String> changes = api.getChangesFromPlayer(event.getPlayer(), false);
                         if (changes.size() != 0) {
-                            Language language = Language.getInstance();
-                            language.sendConfigMessage("update", event.getPlayer());
-                            for (Long key:changes.keySet()) {
-                                HashMap<String, String> replace = new HashMap<>();
-                                replace.put("%id%", key.toString());
-                                replace.put("%update%", changes.get(key));
-                                language.sendConfigMessage("update_line", event.getPlayer(), true, replace);
+                            if (ServerChangeLog.getConfigDataStore().isOnlyNotifyOnJoin()) {
+                                Language.getInstance().sendConfigMessage("notify_on_join", event.getPlayer());
+                            } else {
+                                changes = api.getChangesFromPlayer(event.getPlayer(), true);
+                                Language language = Language.getInstance();
+                                language.sendConfigMessage("update", event.getPlayer());
+                                for (Long key:changes.keySet()) {
+                                    HashMap<String, String> replace = new HashMap<>();
+                                    replace.put("%id%", key.toString());
+                                    replace.put("%update%", changes.get(key));
+                                    language.sendConfigMessage("update_line", event.getPlayer(), true, replace);
+                                }
                             }
                         }
                     }

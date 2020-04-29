@@ -18,6 +18,16 @@ public class ServerChangeLogAPI {
      * @return All changes since last login from a player
      */
     public Map<Long, String> getChangesFromPlayer(Player player) {
+        return getChangesFromPlayer(player, true);
+    }
+
+    /**
+     * Get All changes since last login from a player.
+     * @param player The player to get all changes since last login.
+     * @param setLastSeen Should set the last seen param from the db?
+     * @return All changes since last login from a player
+     */
+    public Map<Long, String> getChangesFromPlayer(Player player, boolean setLastSeen) {
         Map<Long, String> changes = new HashMap<>();
         ChangeLogDataStore dataStore = ServerChangeLog.getChangeLogDataStore();
         HashMap<String, Long> lastSeen = dataStore.getLastSeen();
@@ -31,9 +41,11 @@ public class ServerChangeLogAPI {
                 if (currentId > highestId) highestId = currentId;
             }
         }
-        lastSeen.remove(player.getUniqueId().toString());
-        lastSeen.put(player.getUniqueId().toString(), highestId);
-        dataStore.setLastSeen(lastSeen);
+        if (setLastSeen) {
+            lastSeen.remove(player.getUniqueId().toString());
+            lastSeen.put(player.getUniqueId().toString(), highestId);
+            dataStore.setLastSeen(lastSeen);
+        }
         ServerChangeLog.setChangeLogDataStore(dataStore);
         ConfigHandler configHandler = ServerChangeLog.getChangeLogConfigHandler();
         configHandler.setConfigObject(dataStore);
